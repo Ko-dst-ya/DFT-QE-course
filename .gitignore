@@ -1,0 +1,7 @@
+**/tmp/
+*.save/
+*.wfc*
+*.mix*
+*.igk*
+*.out
+.DS_Store
