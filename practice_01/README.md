@@ -8,4 +8,4 @@
 mpirun -np 2 pw.x -in inputs/si_diamond_scf.in > si_diamond_scf.out
 ```
 
-Перед занятием проверьте, что файл псевдопотенциала Si (`Si_r.upf`) лежит в `/PATH_TO_FOLDER_WITH_QE/qe-7.5/pseudo/` на  и его имя совпадает с `ATOMIC_SPECIES` во входных файлах.
+Перед занятием проверьте, что файл псевдопотенциала Si (`Si_r.upf`) лежит в `/PATH_TO_FOLDER_WITH_QE/qe-7.5/pseudo/`  и его имя совпадает с `ATOMIC_SPECIES` во входных файлах.
