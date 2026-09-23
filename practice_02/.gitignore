@@ -1,0 +1,10 @@
+# Runtime/scratch files for Practice 02
+outputs/
+tmp/
+convergence/ecut/outputs/
+convergence/kgrid/outputs/
+convergence/plots/
+convergence/*_convergence.csv
+*.save/
+*.wfc*
+*.mix*

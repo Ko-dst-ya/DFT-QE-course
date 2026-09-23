@@ -1,0 +1,34 @@
+&CONTROL
+  calculation = 'scf'
+  prefix = 'si_k_6'
+  pseudo_dir = '/home/md/Software/qe-7.5/pseudo'
+  outdir = './tmp/conv_k_6'
+  tstress = .true.
+  tprnfor = .true.
+/
+&SYSTEM
+  ibrav = 0
+  nat = 2
+  ntyp = 1
+  ecutwfc = 50.0
+  ecutrho = 200.0
+  occupations = 'fixed'
+/
+&ELECTRONS
+  conv_thr = 1.0d-8
+  mixing_beta = 0.7
+/
+ATOMIC_SPECIES
+Si 28.0855 Si_r.upf
+
+CELL_PARAMETERS angstrom
+0.0000000000  2.7348265000  2.7348265000
+2.7348265000  0.0000000000  2.7348265000
+2.7348265000  2.7348265000  0.0000000000
+
+ATOMIC_POSITIONS crystal
+Si 0.00000000 0.00000000 0.00000000
+Si 0.25000000 0.25000000 0.25000000
+
+K_POINTS automatic
+6 6 6 1 1 1

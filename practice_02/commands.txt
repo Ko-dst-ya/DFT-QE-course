@@ -1,0 +1,41 @@
+PRACTICE 2 — LIVE COMMANDS
+==========================
+
+# Update local course repository
+cd DFT-QE-course
+git pull
+cd practice_02
+
+# Quick check
+pw.x -h
+ls inputs scripts convergence
+
+# 1) SCF: perfect diamond, deliberately wrong a
+bash scripts/run_scf.sh
+
+# 2) RELAX: displaced atom, fixed cell
+bash scripts/run_relax.sh
+
+# 3) VC-RELAX: perfect diamond, wrong a -> optimize volume
+bash scripts/run_vcrelax.sh
+
+# Summarize all three
+python scripts/analyze_outputs.py
+
+# Useful manual greps
+grep "!" outputs/*.out
+grep "Total force" outputs/*.out
+grep "P=" outputs/*.out
+grep "JOB DONE" outputs/*.out
+
+# Convergence sweeps (run before class if possible)
+bash convergence/ecut/run_ecut.sh
+bash convergence/kgrid/run_kgrid.sh
+python convergence/scripts/collect_convergence.py
+python convergence/scripts/plot_convergence.py
+
+# Or all at once
+bash convergence/run_all.sh
+
+# If you want more MPI ranks for the tiny demo jobs
+NP=4 bash scripts/run_vcrelax.sh

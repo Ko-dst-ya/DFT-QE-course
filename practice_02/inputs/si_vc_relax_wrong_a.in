@@ -1,0 +1,46 @@
+&CONTROL
+  calculation = 'vc-relax'
+  prefix = 'si_vc_relax_wrong_a'
+  pseudo_dir = '/home/md/Software/qe-7.5/pseudo'
+  outdir = './tmp/vc_relax_wrong_a'
+  tstress = .true.
+  tprnfor = .true.
+  nstep = 60
+  etot_conv_thr = 1.0d-5
+  forc_conv_thr = 1.0d-3
+/
+&SYSTEM
+  ibrav = 0
+  nat = 2
+  ntyp = 1
+  ecutwfc = 40.0
+  ecutrho = 160.0
+  occupations = 'fixed'
+/
+&ELECTRONS
+  conv_thr = 1.0d-8
+  mixing_beta = 0.7
+/
+&IONS
+  ion_dynamics = 'bfgs'
+/
+&CELL
+  cell_dynamics = 'bfgs'
+  press = 0.0
+  press_conv_thr = 0.5
+  cell_dofree = 'volume'
+/
+ATOMIC_SPECIES
+Si 28.0855 Si_r.upf
+
+CELL_PARAMETERS angstrom
+0.0000000000  2.6500000000  2.6500000000
+2.6500000000  0.0000000000  2.6500000000
+2.6500000000  2.6500000000  0.0000000000
+
+ATOMIC_POSITIONS crystal
+Si 0.00000000 0.00000000 0.00000000
+Si 0.25000000 0.25000000 0.25000000
+
+K_POINTS automatic
+4 4 4 1 1 1
