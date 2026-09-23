@@ -28,7 +28,7 @@
   cell_dynamics = 'bfgs'
   press = 0.0
   press_conv_thr = 0.5
-  cell_dofree = 'volume'
+  cell_dofree = 'all'
 /
 ATOMIC_SPECIES
 Si 28.0855 Si_r.upf
