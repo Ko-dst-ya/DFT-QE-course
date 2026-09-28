@@ -1,0 +1,27 @@
+# Practice 3 quick commands
+
+cd DFT-QE-course/practice_03
+
+# VM:
+export QE_PSEUDO_DIR=/home/md/Software/qe-7.5/pseudo
+export QE_PSEUDO_FILE=Si_r.upf
+
+# 0. SeeK-path + input generation
+bash scripts/00_prepare.sh
+
+# 1. SCF, uniform mesh
+bash scripts/01_scf.sh
+
+# 2. Bands, high-symmetry path + orbital projections
+bash scripts/02_bands.sh
+
+# 3. DOS/PDOS, dense uniform mesh
+bash scripts/03_dos_pdos.sh
+
+# Or all:
+bash scripts/run_all.sh
+
+# Inspect:
+cat generated/seekpath_summary.txt
+ls results/bands
+ls results/dos
