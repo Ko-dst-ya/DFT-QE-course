@@ -15,17 +15,13 @@ mkdir -p tmp/bands
 cp -a tmp/scf/si.save tmp/bands/
 
 echo "[BANDS] high-symmetry SeeK-path -> E_n(k)"
+echo "Input uses human-readable K_POINTS crystal_b."
 mpirun -np "$NP" pw.x -in inputs/si_bands.in > outputs/02_bands_pw.out
 
 echo "[bands.x] convert/reformat band eigenvalues"
 bands.x -in inputs/si_bands_pp.in > outputs/02_bands_x.out
 
-echo "[projwfc.x] project each band state onto atomic s/p/... orbitals"
-projwfc.x -in inputs/si_projwfc_bands.in > outputs/02_projwfc_bands.out
-
 python scripts/plot_bands.py
-python scripts/parse_projwfc_bands.py
-python scripts/plot_projected_bands.py
 
 echo
 echo "Created:"

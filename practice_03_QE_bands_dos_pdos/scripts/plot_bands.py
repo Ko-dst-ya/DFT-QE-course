@@ -6,7 +6,7 @@ from qe_helpers import read_vbm, pretty_label
 
 root = Path(__file__).resolve().parents[1]
 gnu = root / "results/bands/si_bands.dat.gnu"
-labels_file = root / "generated/seekpath_labels.tsv"
+labels_file = root / "generated/qe_bands_labels.tsv"
 scf_out = root / "outputs/01_scf.out"
 
 if not gnu.exists():

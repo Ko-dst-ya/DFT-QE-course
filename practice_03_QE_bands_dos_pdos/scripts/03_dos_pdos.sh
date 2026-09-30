@@ -15,6 +15,7 @@ mkdir -p tmp/dos
 cp -a tmp/scf/si.save tmp/dos/
 
 echo "[NSCF] dense uniform k-mesh -> many eigenvalues for DOS integration"
+echo "Default input uses occupations='tetrahedra', nbnd=20, and 20x20x20 k-grid."
 mpirun -np "$NP" pw.x -in inputs/si_nscf_dos.in > outputs/03_nscf_dos.out
 
 echo "[dos.x] total DOS"
