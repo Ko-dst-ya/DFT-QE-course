@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from pathlib import Path
+import re
 import numpy as np
 import matplotlib.pyplot as plt
 from qe_helpers import read_vbm
@@ -7,7 +8,19 @@ from qe_helpers import read_vbm
 root = Path(__file__).resolve().parents[1]
 dos_dir = root / "results/dos"
 scf_out = root / "outputs/01_scf.out"
-vbm = read_vbm(scf_out)
+band_edges = root / "results/bands/si_band_edges.txt"
+
+# Prefer the VBM extracted from the actual band path (which contains Γ for Si).
+# A shifted SCF mesh may miss Γ and place "highest occupied level" slightly too low.
+if band_edges.exists():
+    text = band_edges.read_text(errors="ignore")
+    m = re.search(r"VBM_eV\s*=\s*([-+0-9.Ee]+)", text)
+    if not m:
+        raise RuntimeError(f"Could not parse VBM from {band_edges}")
+    vbm = float(m.group(1))
+else:
+    vbm = read_vbm(scf_out)
+    print("WARNING: band-path VBM not found; using highest occupied level from SCF output.")
 
 total_file = dos_dir / "si.dos"
 if not total_file.exists():
@@ -51,3 +64,4 @@ plt.tight_layout()
 out = dos_dir / "si_DOS_PDOS_sp.png"
 plt.savefig(out, dpi=220)
 print(out)
+print(f"Energy zero: VBM = {vbm:.6f} eV")
