@@ -3,7 +3,7 @@ from pathlib import Path
 import re
 import numpy as np
 import matplotlib.pyplot as plt
-from qe_helpers import read_vbm, pretty_label
+from qe_helpers import pretty_label
 
 root = Path(__file__).resolve().parents[1]
 gnu = root / "results/bands/si_bands.dat.gnu"
@@ -32,7 +32,31 @@ if current:
 if not blocks:
     raise RuntimeError("No band blocks parsed from .gnu file.")
 
-vbm = read_vbm(scf_out)
+# For non-spin-polarized Si, the number of occupied spatial KS bands is Ne/2.
+# Use the actual band-path maximum as VBM. A shifted SCF mesh need not contain Γ,
+# so "highest occupied level" from SCF can sit slightly below the true path VBM.
+scf_text = scf_out.read_text(errors="ignore")
+m = re.search(r"number of electrons\s*=\s*([-+0-9.Ee]+)", scf_text, flags=re.I)
+if not m:
+    raise RuntimeError("Could not read number of electrons from SCF output.")
+nelec = float(m.group(1))
+nocc = int(round(nelec / 2.0))
+if nocc < 1 or nocc >= len(blocks):
+    raise RuntimeError(f"Unexpected occupied-band count nocc={nocc} for {len(blocks)} bands.")
+
+vbm = float(np.max(blocks[nocc - 1][:, 1]))
+cbm = float(np.min(blocks[nocc][:, 1]))
+gap = cbm - vbm
+
+edges_file = root / "results/bands/si_band_edges.txt"
+edges_file.write_text(
+    f"nelec = {nelec:.6f}\n"
+    f"nocc = {nocc}\n"
+    f"VBM_eV = {vbm:.10f}\n"
+    f"CBM_eV = {cbm:.10f}\n"
+    f"path_gap_eV = {gap:.10f}\n",
+    encoding="utf-8",
+)
 
 # Labels are stored in the same order as the special points in K_POINTS crystal_b.
 labels = []
@@ -44,14 +68,13 @@ with open(labels_file, encoding="utf-8") as f:
         labels.append(pretty_label(parts[-1]))
 
 # bands.x prints the actual x-coordinate of every high-symmetry point.
-# Use those coordinates directly instead of reconstructing indices ourselves.
 tick_x = []
 if bands_x_out.exists():
     pattern = re.compile(r"high-symmetry point:.*?x coordinate\s+([-+0-9.Ee]+)", re.I)
     for line in bands_x_out.read_text(errors="ignore").splitlines():
-        m = pattern.search(line)
-        if m:
-            tick_x.append(float(m.group(1)))
+        mm = pattern.search(line)
+        if mm:
+            tick_x.append(float(mm.group(1)))
 
 if len(tick_x) < len(labels):
     raise RuntimeError(
@@ -88,3 +111,5 @@ plt.tight_layout()
 out = root / "results/bands/si_bands.png"
 plt.savefig(out, dpi=220)
 print(out)
+print(edges_file)
+print(f"VBM = {vbm:.6f} eV, CBM(path) = {cbm:.6f} eV, path gap = {gap:.6f} eV")
