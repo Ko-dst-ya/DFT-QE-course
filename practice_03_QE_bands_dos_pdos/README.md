@@ -263,12 +263,12 @@ bundled relaxed structure.
 
 ---
 
-## 7. Folding
+## 7. ~~Folding~~
 
-The core workflow uses the 2-atom primitive cell.
+~~The core workflow uses the 2-atom primitive cell.~~
 
-For the lecture/demo, `structure/si_conventional_8atoms.cif` is included.
-The suggested comparison is:
+~~For the lecture/demo, `structure/si_conventional_8atoms.cif` is included.
+The suggested comparison is:~~
 
 ```text
 ARPES / reference Si valence bands
@@ -278,6 +278,6 @@ ARPES / reference Si valence bands
 8-atom-cell folded representation
 ```
 
-The automated 8-atom band path is deliberately not in `run_all.sh` yet.
+~~The automated 8-atom band path is deliberately not in `run_all.sh` yet.
 Choose it only after deciding exactly which reciprocal-space comparison you
-want to show.
+want to show.~~
